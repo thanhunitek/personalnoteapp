@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Editor from '@/components/Editor';
 import PinScreen from '@/components/PinScreen';
+import CoreValues from '@/components/CoreValues';
 import { Entry } from '@/lib/types';
 
 export default function Home() {
@@ -145,6 +146,7 @@ export default function Home() {
           />
         )}
       </main>
+      <CoreValues />
     </div>
   );
 }
