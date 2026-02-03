@@ -46,8 +46,8 @@ export default function Editor({ entry, onSave, isSaving }: EditorProps) {
   }, [handleSave]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 py-8">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="w-full max-w-2xl mx-auto px-4 py-4 h-screen flex flex-col">
+      <div className="mb-4 flex items-center justify-between flex-shrink-0">
         <span className="text-xs text-gray-400 dark:text-gray-500">
           {hasChanges ? 'Unsaved changes' : entry ? 'Saved' : 'New entry'}
         </span>
@@ -64,13 +64,13 @@ export default function Editor({ entry, onSave, isSaving }: EditorProps) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Title"
-        className="w-full text-2xl font-medium bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 mb-4"
+        className="w-full text-2xl font-medium bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 mb-4 flex-shrink-0"
       />
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Start writing your thoughts..."
-        className="w-full h-[calc(100vh-250px)] text-base bg-transparent border-none outline-none resize-none text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500 leading-relaxed"
+        className="w-full flex-1 min-h-0 text-base bg-transparent border-none outline-none resize-none text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500 leading-relaxed pb-8"
       />
     </div>
   );

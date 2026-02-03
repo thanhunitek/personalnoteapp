@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import Editor from '@/components/Editor';
 import { Entry } from '@/lib/types';
@@ -93,13 +92,8 @@ export default function Home() {
     }
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={toggleSidebar} />
       <Sidebar
         entries={entries}
         selectedEntry={selectedEntry}
@@ -107,14 +101,15 @@ export default function Home() {
         onSelectEntry={handleSelectEntry}
         onDeleteEntry={handleDeleteEntry}
         onNewEntry={handleNewEntry}
+        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
       />
       <main
-        className={`pt-14 transition-all duration-300 ${
+        className={`transition-all duration-300 ${
           isSidebarOpen ? 'ml-[250px]' : 'ml-0'
         }`}
       >
         {isLoading ? (
-          <div className="flex items-center justify-center h-[calc(100vh-56px)]">
+          <div className="flex items-center justify-center h-screen">
             <div className="text-gray-400 dark:text-gray-500">Loading...</div>
           </div>
         ) : (
