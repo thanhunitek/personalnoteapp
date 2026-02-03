@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Editor from '@/components/Editor';
+import PinScreen from '@/components/PinScreen';
 import { Entry } from '@/lib/types';
 
 export default function Home() {
@@ -11,11 +12,18 @@ export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const fetchEntries = useCallback(async () => {
     try {
       const response = await fetch('/api/entries');
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return;
+      }
       if (response.ok) {
+        setIsAuthenticated(true);
         const data = await response.json();
         setEntries(data);
       }
@@ -29,6 +37,11 @@ export default function Home() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
+
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+    fetchEntries();
+  };
 
   const handleNewEntry = () => {
     setSelectedEntry(null);
@@ -91,6 +104,18 @@ export default function Home() {
       setIsSaving(false);
     }
   };
+
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <div className="text-gray-400 dark:text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <PinScreen onSuccess={handleAuthSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
